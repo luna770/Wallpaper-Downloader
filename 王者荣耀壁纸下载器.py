@@ -5,7 +5,7 @@
 @Author: bilibili晨霜若雪
 @Description: 可以下载单个/所有英雄的全部壁纸，分辨率可选且和官网（https://pvp.qq.com/web201605/wallpaper.shtml"）保持一致，支持增量下载
 @Update_date: 2020-12-09
-@Version: 2.1 优化皮肤命名，修复bug
+@Version: 2.2 优化皮肤命名，修复bug
 """
 
 import os
@@ -63,6 +63,9 @@ def spider(heroName, size_key, is_one_hero=False):
         img_url_raw = data['List'][i]['sProdImgNo_' + size_key].replace('F200', 'F0')
         img_url = unquote(img_url_raw, 'utf-8')
         img_name = unquote(data['List'][i]['sProdName']) + '.jpg'
+        # 解决因接口造成的‘后羿-如梦令.jpg’下载出错问题
+        if img_name == '后羿-如梦令.jpg':
+            img_url = 'http://shp.qpic.cn/ishow/2735031110/1583893704_84828260_20058_sProdImgNo_' + size_key + '.jpg/0'
         download_img(img_url, sizes[size_key], img_name)
     if is_one_hero:
         showMenu(2)
@@ -95,7 +98,7 @@ def showMenu(second):
 
 
 def controller():
-    print('\n>>----------------- 【王者荣耀壁纸下载器】 --------------------<<\n')
+    print('\n>>----------------- 【王者荣耀壁纸下载器-V2.2】 --------------------<<\n')
     print("\t1\t下载单个英雄壁纸\n\t2\t下载所有英雄壁纸\n\t3\t帮助")
     print('\n>>-------------------------------------------- @b站晨霜若雪 --<<')
 
@@ -114,7 +117,8 @@ def controller():
         print(" ===>开始下载全部壁纸===>")
         for heroName in heroNames:
             spider(heroName, size_key)
-        print("【后羿-如梦令.jpg】下载异常，请单独前往官网下载，谢谢理解！")
+        print("全部壁纸下载完成! 程序在8秒后自动退出...")
+        time.sleep(8)
     elif instruction == '3':
         print("\n" + "-" * 30 + "【帮助信息】" + "-" * 30 + "\n\n\t【作者】：哔哩哔哩@晨霜若雪\n\t【描述】：可以下载单个/所有英雄的"
               "全部壁纸，分辨率可选且和官网保持一致\n\t" + "【地址】：https://github.com/"
