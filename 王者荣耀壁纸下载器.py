@@ -4,8 +4,8 @@
 @Project_name: 王者荣耀壁纸下载器
 @Author: bilibili晨霜若雪
 @Description: 可以下载单个/所有英雄的全部壁纸，分辨率可选且和官网（https://pvp.qq.com/web201605/wallpaper.shtml"）保持一致，支持增量下载
-@Date: 2020-11-01
-@Version: 1.0
+@Update_date: 2020-12-09
+@Version: 2.0 优化皮肤命名
 """
 
 import os
@@ -62,7 +62,7 @@ def spider(heroName, size_key, is_one_hero=False):
     for i in range(skin_count):
         img_url_raw = data['List'][i]['sProdImgNo_' + size_key].replace('F200', 'F0')
         img_url = unquote(img_url_raw, 'utf-8')
-        img_name = heroName + '_' + str(i + 1) + '.jpg'
+        img_name = unquote(data['List'][i]['sProdName']) + '.jpg'
         download_img(img_url, sizes[size_key], img_name)
     if is_one_hero:
         showMenu(2)
