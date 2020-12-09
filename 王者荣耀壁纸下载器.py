@@ -62,7 +62,7 @@ def spider(heroName, size_key, is_one_hero=False):
     for i in range(skin_count):
         img_url_raw = data['List'][i]['sProdImgNo_' + size_key].replace('F200', 'F0')
         img_url = unquote(img_url_raw, 'utf-8')
-        img_name = unquote(data['List'][i]['sProdName']) + '.jpg'
+        img_name = (unquote(data['List'][i]['sProdName']) + '.jpg').strip()
         # 解决因接口造成的‘后羿-如梦令.jpg’下载出错问题
         if img_name == '后羿-如梦令.jpg':
             img_url = 'http://shp.qpic.cn/ishow/2735031110/1583893704_84828260_20058_sProdImgNo_' + size_key + '.jpg/0'
