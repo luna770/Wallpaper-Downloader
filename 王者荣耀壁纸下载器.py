@@ -5,7 +5,7 @@
 @Author: bilibili晨霜若雪
 @Description: 可以下载单个/所有英雄的全部壁纸，分辨率可选且和官网（https://pvp.qq.com/web201605/wallpaper.shtml"）保持一致，支持增量下载
 @Update_date: 2020-12-09
-@Version: 2.0 优化皮肤命名
+@Version: 2.1 优化皮肤命名，修复bug
 """
 
 import os
@@ -74,6 +74,9 @@ def download_img(img_url, size_folder, img_name):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
+    # 修复‘\d:’开头的文件名导致os.path.join()的异常问题，干脆删除
+    if ':' in img_name:
+        return
     save_path = os.path.join(save_dir, img_name)
 
     # 文件不存在时才写入（增量下载）
@@ -108,8 +111,10 @@ def controller():
     elif instruction == '2':
         size_key = selectSize()
         # print("【共" + str(len(heroNames)) + "英雄】\n")
+        print(" ===>开始下载全部壁纸===>")
         for heroName in heroNames:
             spider(heroName, size_key)
+        print("【后羿-如梦令.jpg】下载异常，请单独前往官网下载，谢谢理解！")
     elif instruction == '3':
         print("\n" + "-" * 30 + "【帮助信息】" + "-" * 30 + "\n\n\t【作者】：哔哩哔哩@晨霜若雪\n\t【描述】：可以下载单个/所有英雄的"
               "全部壁纸，分辨率可选且和官网保持一致\n\t" + "【地址】：https://github.com/"
